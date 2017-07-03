@@ -1,9 +1,10 @@
-GCC=/usr/bin/gcc
-SRC=*.c
+GCC=/usr/bin/gcc -g
+BIN=list
+SRC=mylist
 RM=/bin/rm -f
 
-all:
-	$(GCC) -c $(SRC)
+all: mylist.o
+	$(GCC) -o $(BIN) $(BIN).c $(SRC).o
 clean:
 	$(RM) *.o
 	$(RM) list

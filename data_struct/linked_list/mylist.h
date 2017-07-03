@@ -6,3 +6,6 @@ typedef struct mylist {
   struct mylist *next;
 } mylist;
 
+void insert(mylist **head, int data);
+void printlist(mylist *head);
+void deletenode(mylist **head, int data);
