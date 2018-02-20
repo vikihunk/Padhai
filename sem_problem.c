@@ -4,6 +4,30 @@
  * All producer threads start but wait at a point for all the
  * threads to meet. At this point the last thread signals the 
  * consumer thread which would be waiting on a conditional variable
+ *
+ * Sample output:
+ *
+ * IN PRODUCER THREAD:[139796390364928] count:1
+ * IN PRODUCER THREAD:[139796390364928], waiting on cond variable
+ * IN PRODUCER THREAD:[139796398757632] count:2
+ * IN PRODUCER THREAD:[139796398757632], waiting on cond variable
+ * IN PRODUCER THREAD:[139796407150336] count:3
+ * IN PRODUCER THREAD:[139796407150336], waiting on cond variable
+ * IN PRODUCER THREAD:[139796415543040] count:4
+ * IN PRODUCER THREAD:[139796415543040], waiting on cond variable
+ * IN PRODUCER THREAD:[139796423935744] count:5
+ * IN PRODUCER THREAD:[139796423935744], waiting on cond variable
+ * IN PRODUCER THREAD:[139796432328448] count:6
+ * Signalling consumer
+ * IN PRODUCER THREAD:[139796432328448], waiting on cond variable
+ * 
+ * IN CONSUMER THREAD
+ * Reinit count
+ * IN CONSUMER THREAD : Signalling cond variable
+ * IN PRODUCER THREAD:[139796390364928] count:1
+ * IN PRODUCER THREAD:[139796390364928], waiting on cond variable
+ * ...
+ *
  */
 #include <stdio.h>
 #include <semaphore.h>
@@ -17,20 +41,19 @@ pthread_cond_t  condition_var   = PTHREAD_COND_INITIALIZER;
 
 void *producer_thread() {
 	while(1) {
-		printf("\nIN PRODUCER THREAD:[%u]\n", pthread_self());
 		if(0 != pthread_mutex_lock( &mutex1)) {
-			printf("Failed to lock, producer thread:[%u]\n", pthread_self());
+			printf("Failed to lock, producer thread:[%ld]\n", pthread_self());
 		}
 		count++;
 
-		printf("IN PRODUCER THREAD:[%u] count:%d\n", pthread_self(), count);
+		printf("IN PRODUCER THREAD:[%ld] count:%d\n", pthread_self(), count);
 		if(count == 6) {
 			printf("Signalling consumer\n");
 			if(-1 == sem_post(&c_sem)) {
 				printf("Signalling consumer failed\n");
 			}
 		}
-		printf("IN PRODUCER THREAD:[%u], waiting on cond variable\n",pthread_self());
+		printf("IN PRODUCER THREAD:[%ld], waiting on cond variable\n",pthread_self());
 		pthread_cond_wait( &condition_var, &mutex1 );
 		pthread_mutex_unlock( &mutex1);
 	}
@@ -38,10 +61,9 @@ void *producer_thread() {
 
 void *consumer_thread() {
 	while(1) {
-		printf("IN CONSUMER THREAD, waiting on c_sem\n");
 		if(-1 == sem_wait(&c_sem)) {
 			printf("Wait on c_sem failed\n");
-			return;
+			return(NULL);
 		}
 		printf("\nIN CONSUMER THREAD\n");
 		pthread_mutex_lock( &mutex1);
@@ -79,6 +101,12 @@ int main() {
 	if(-1 == pthread_join(cons_thread, NULL)) {
 		printf("Join failed\n");
 		ret_val = -1;
+	}
+	for(i = 0; i <= 5; i++) {
+		if(-1 == pthread_join(prod_thread[i], NULL)) {
+			printf("Join failed\n");
+			ret_val = -1;
+		}
 	}
 	return ret_val;
 }
