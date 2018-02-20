@@ -7,13 +7,15 @@
 #include <stdio.h>
 int main() 
 {
-	unsigned int i = 1;
+	unsigned int i = 0x0102;
 	char *c = (char*)&i;
-	printf("sizeof(int):%d\n", sizeof(int));
-	if (*c)    
+	printf("sizeof(int):%ld\n", sizeof(int));
+	if (*c == 0x02) {    
 		printf("Little endian\n");
-	else
+	} else if (*c == 0x01) {
 		printf("Big endian\n");
-	getchar();
+	} else {
+		printf("Only God Knows!!\n");
+	}
 	return 0;
 }
