@@ -1,0 +1,6 @@
+There are two files in this:
+1. alternate_print.c - This uses condition variable along with mutex and creates two threads to alternately print odd and even numbers.
+
+2. mutex_alt_print.c - This uses only mutex lock/unlock and creates two threads to print odd/even numbers alternatively. However this will not print the numbers alternately as required. This is because even if mutex held by one thread is released, the other thread might not get scheduled and the first thread might continue printing the same number again and again.
+
+alternate_print.c is the correct implementation.
