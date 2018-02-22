@@ -1,0 +1,8 @@
+This folder contains the list of questions from interviews I attended.
+
+Pulse secure:
+1. What is Singleton class and whether it can be implemented in C?
+2. How to decide hardware configuration for a set of say 30 processes?
+How do you determine the ize of RAM, CPU cores etc?
+3. Sort a given linked list.
+4. Find the maximum sum and print path of max sum in a binary tree.
