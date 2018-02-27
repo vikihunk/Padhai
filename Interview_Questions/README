@@ -6,3 +6,18 @@ Pulse secure:
 How do you determine the ize of RAM, CPU cores etc?
 3. Sort a given linked list.
 4. Find the maximum sum and print path of max sum in a binary tree.
+
+DELL/EMC:
+1. How is shared interrupt implemented?
+   How is the interrupt for a given device id invoked in a shared IRQ case
+2. How is static variable/function maintained in an address space?
+3. What is the boot sequence/uboot sequence for Linux?
+4. How do you delete a node from a linked list given only its address?
+5. Count the number of 1's in a 32 bit number (most optimum way)?
+6. How is DMA range obtained in a PCIe driver during probe?
+7. Explain probe cycle of a driver when it is loaded?
+8. Does scheduler schedule a process or threads in the process?
+9. What are address ranges in Linux?
+10. Is kernel mode memory swappable?
+11. How are PCIe devices registered?
+12.  
