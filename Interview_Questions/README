@@ -20,4 +20,7 @@ DELL/EMC:
 9. What are address ranges in Linux?
 10. Is kernel mode memory swappable?
 11. How are PCIe devices registered?
-12.  
+
+MS: Creating folder for MS
+It has some commonly asked questions, solved by me.
+1. Print last ten lines in a big string or file. 
